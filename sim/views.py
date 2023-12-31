@@ -2,7 +2,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from sim.forms import SampleForm
+from sim.forms import SampleForm, ContactForm
 from sim.models import Person, Article
 
 
@@ -50,3 +50,15 @@ def articles(request):
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'articles.html', {'page_obj': page_obj})
+
+
+def contact_form(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            return render(request, 'htmx_contact_form_confirm.html')
+    else:
+        form = ContactForm()
+
+    return render(request, 'htmx_contact_form.html', {'contact_form': form})
