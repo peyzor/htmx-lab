@@ -1,8 +1,9 @@
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render
 
 from sim.forms import SampleForm
-from .models import Person
+from sim.models import Person, Article
 
 
 def sample_post(request, *args, **kwargs):
@@ -41,3 +42,11 @@ def search_results_view(request):
 
     context = {'people': people, 'count': all_people.count()}
     return render(request, 'search_results.html', context)
+
+
+def articles(request):
+    page_number = request.GET.get('page', 1)
+    paginator = Paginator(Article.objects.all(), 10)
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'articles.html', {'page_obj': page_obj})
