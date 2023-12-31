@@ -19,7 +19,7 @@
     {% csrf_token %}
     <input class="form-control" type="search"
            name="search" placeholder="Begin Typing To Search Users..."
-           hx-get="/search/results/"
+           hx-get="{% url 'search_results_view' %}"
            hx-trigger="keyup changed, search"
            hx-target="#search-results"
            hx-indicator=".htmx-indicator">
